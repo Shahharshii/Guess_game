@@ -7,18 +7,11 @@
         <title>guess a word</title>
         <link rel="stylesheet" href="style.css">
     </head>
-    <body></body>
+    <body>
 <div class="wrapper">
     <h1>guess the word</h1>
     <div class="content">
-        <div class="inputs">
-            <input type="text" disabled>
-            <input type="text" disabled>
-            <input type="text" disabled>
-            <input type="text" disabled>
-            <input type="text" disabled>
-            <input type="text" disabled>
-        </div>
+        <div class="inputs">  </div>
         <div class="details">
             <p class="hint">Hint: <span>Hint will be shown here</span></p>
             <p class="guess_left">remaining guesses: <span>10</span></p>
@@ -27,4 +20,72 @@
         <button class="reset_btn">Reset Game</button>
     </div>
 </div>
+<script>
+    //storing word details as an object
+    const wordList = [
+        {
+            word:"search",
+            hint:"The act of finding something"
+        },
+        {
+            word:"jpeg",
+            hint:"a small format of an image"
+        },
+        {
+            word:"svg",
+            hint:"A vector image format"
+        },
+        {
+            word:"server",
+            hint:"related to computer or system"
+        },
+        {
+            word:"idea",
+            hint:"A thought or suggestion"
+        },
+        {
+           word:"act",
+           hint:"The doing of a thing"
+        },
+        {
+            word:"png",
+            hint:"raster type of image"
+        },
+        {
+            word:"silver",
+            hint:"a precious greyish white metal"
+        },
+        {
+            word:"bugs",
+            hint:"error in programs"
+        },
+        {
+            word:"avatar",
+            hint:"epic science fiction files"
+        },
+    ];
+
+    const inputs = document.querySelector(".inputs");
+    //getting random word on button click
+    
+
+
+    function randomWord(){//lets get random object from the Wordlist
+    let randomObj = wordList[Math.floor(Math.random() *wordList.length)];
+    let word = randomObj.word; 
+    console.log(word);
+
+
+
+
+let html = "";
+for (let i=0; i<word.length; i++){
+    html = ` <input type="text" disabled>`;
+}
+inputs.innerHTML = html;
+    }
+    //getting random object from the list
+    randomWord();
+    </script>
+</body>
 </html>

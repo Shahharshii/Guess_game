@@ -20,7 +20,7 @@ body{
     font-size: 25px;
     font-weight: 500;
     padding: 20px 25px;
-    border: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 .wrapper .content{
     margin: 25px 25px 35px;
@@ -50,4 +50,15 @@ body{
 .details p{
     font-size: 19px;
     margin-bottom: 10px;
+}
+.content .reset_btn{
+    width: 100%;
+    padding: 15px 0;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    font-size: 17px;
+    background-color: blue;
+    color: antiquewhite;
+    cursor: pointer;
 }
