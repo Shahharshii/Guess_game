@@ -11,9 +11,10 @@
 <div class="wrapper">
     <h1>guess the word</h1>
     <div class="content">
+        <input type="text" class="typing-input" maxlength="1">
         <div class="inputs">  </div>
         <div class="details">
-            <p class="hint">Hint: <span>Hint will be shown here</span></p>
+            <p class="hint">Hint: <span></span></p>
             <p class="guess_left">remaining guesses: <span>10</span></p>
             <p class="wrong_letters">wrong letters: <span>a, b, c, d</span></p>
         </div>
@@ -65,27 +66,62 @@
         },
     ];
 
-    const inputs = document.querySelector(".inputs");
+    const inputs = document.querySelector(".inputs"),
     //getting random word on button click
-    
+    resetbtn = document.querySelector(".reset_btn"),
+    //lets show hint of the random word
+    hint = document.querySelector(".hint span"),
+    typinginput = document.querySelector(".typing-input");
 
+     //making word a global variable, so that can accesss it from anywhere
+    let word ;
 
     function randomWord(){//lets get random object from the Wordlist
     let randomObj = wordList[Math.floor(Math.random() *wordList.length)];
-    let word = randomObj.word; 
+     word = randomObj.word; 
     console.log(word);
 
-
+hint.innerHTML = randomObj.hint;
 
 
 let html = "";
 for (let i=0; i<word.length; i++){
-    html = ` <input type="text" disabled>`;
+    html += ` <input type="text" disabled>`;
 }
 inputs.innerHTML = html;
     }
     //getting random object from the list
     randomWord();
+
+    //getting user pressed key
+    function initGame(e){
+        let key = e.target.value;
+        //lets validate set pressed key if its alphabet character or number
+        if(key.match(/^[A-Za-z]+$/)){
+            console.log(key);
+          //lets check if entered letter is in the word or not
+if(word.includes(key)){//if user letter found in the word
+    console.log("letter found");
+     //lets see the found letter in the input
+     for(let i = 0; i < word.length; i++){
+//showing matched letter in the input value
+  if(word[i] === key){
+    inputs.querySelectorAll("input")[i].value = key;
+  }
+     }
+}else{
+    console.log("letter not found");
+}
+        }
+        
+    }
+        
+    
+
+    resetbtn.addEventListener("click", randomWord );
+    typinginput.addEventListener("input", initGame)
+    //automatically focusing input when user press any key
+    document.addEventListener("keydown", () => typinginput.focus());
     </script>
 </body>
 </html>
