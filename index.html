@@ -15,8 +15,8 @@
         <div class="inputs">  </div>
         <div class="details">
             <p class="hint">Hint: <span></span></p>
-            <p class="guess_left">remaining guesses: <span>10</span></p>
-            <p class="wrong_letters">wrong letters: <span>a, b, c, d</span></p>
+            <p class="guess_left">remaining guesses: <span></span></p>
+            <p class="wrong_letters">wrong letters: <span></span></p>
         </div>
         <button class="reset_btn">Reset Game</button>
     </div>
@@ -69,19 +69,30 @@
     const inputs = document.querySelector(".inputs"),
     //getting random word on button click
     resetbtn = document.querySelector(".reset_btn"),
+    //wrong letters
+    wrongletter = document.querySelector(".wrong_letters"),
     //lets show hint of the random word
     hint = document.querySelector(".hint span"),
+    //guessleft
+guessleft = document.querySelector(".guess_left span"),
+    //input
     typinginput = document.querySelector(".typing-input");
 
      //making word a global variable, so that can accesss it from anywhere
-    let word ;
+     //showing wrong letter here
+     //lets do the same for correct letters
+    let word , maxGuesses,corrects = [], incorrects = []; //resetting all the values to default
 
     function randomWord(){//lets get random object from the Wordlist
     let randomObj = wordList[Math.floor(Math.random() *wordList.length)];
      word = randomObj.word; 
+     //keeping it 8 by default
+     maxGuesses = 8; corrects = []; incorrects = [];
     console.log(word);
 
-hint.innerHTML = randomObj.hint;
+hint.innerText = randomObj.hint;
+guessleft.innerText = maxGuesses;
+wrongletter.innerText = incorrects;
 
 
 let html = "";
@@ -97,7 +108,10 @@ inputs.innerHTML = html;
     function initGame(e){
         let key = e.target.value;
         //lets validate set pressed key if its alphabet character or number
-        if(key.match(/^[A-Za-z]+$/)){
+        // lets restrict the user from typing the same key twice
+        
+        if(key.match(/^[A-Za-z]+$/) && !incorrects.includes(`$(key)`)
+           && !corrects.includes(key) ){
             console.log(key);
           //lets check if entered letter is in the word or not
 if(word.includes(key)){//if user letter found in the word
@@ -106,16 +120,42 @@ if(word.includes(key)){//if user letter found in the word
      for(let i = 0; i < word.length; i++){
 //showing matched letter in the input value
   if(word[i] === key){
+    corrects.push(key);
     inputs.querySelectorAll("input")[i].value = key;
   }
      }
 }else{
-    console.log("letter not found");
+    maxGuesses--; //decrementing guesses by 1
+    //lets add space between the wrong letter
+       incorrects.push(`${key}`);
+
 }
+guessleft.innerText = maxGuesses;
+        wrongletter.innerText = incorrects;
         }
-        
-    }
-        
+       
+        //lets empty the input tag once user entered the key
+        typinginput.value = "";
+
+         //lets show alert if user found all letters
+
+if(corrects.length === word.length){
+   alert(`Congratulations!! you found the word. ${word.toUppercase()}`);
+   randomWord(); //calling the function so the game restart
+}
+
+
+        else if(maxGuesses < 1){//if user id not find all thw letters
+        alert("Game Over!!! you do'nt have remaining guesses");
+        for(let i = 0; i < word.length; i++){
+//show all letters in the input
+       inputs.querySelectorAll("input")[i].value = word[i] ;
+  }
+
+     }
+        }
+    
+    
     
 
     resetbtn.addEventListener("click", randomWord );
